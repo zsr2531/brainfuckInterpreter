@@ -1,7 +1,5 @@
 package memeLang.ast;
 
-import memeLang.ast.AstNode;
-import memeLang.ast.AstStatement;
 import memeLang.ast.visitor.AstNodeReturnVisitor;
 import memeLang.ast.visitor.AstNodeVisitor;
 
@@ -12,8 +10,8 @@ public class AstShiftRightStatement extends AstStatement {
     }
 
     @Override
-    public void Accept(AstNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> void Accept(AstNodeVisitor<T> visitor, T state) {
+        visitor.visit(this, state);
     }
 
     @Override

@@ -22,8 +22,8 @@ public class AstLoopStatement extends AstStatement {
     }
 
     @Override
-    public void Accept(AstNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> void Accept(AstNodeVisitor<T> visitor, T state) {
+        visitor.visit(this, state);
     }
 
     @Override

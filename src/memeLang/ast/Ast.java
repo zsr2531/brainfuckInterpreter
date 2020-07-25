@@ -18,8 +18,8 @@ public class Ast extends AstNode {
     }
 
     @Override
-    public void Accept(AstNodeVisitor visitor) {
-        visitor.visit(this);
+    public <T> void Accept(AstNodeVisitor<T> visitor, T state) {
+        visitor.visit(this, state);
     }
 
     @Override
