@@ -26,9 +26,8 @@ public final class Main {
             var diagnostics = new DiagnosticBag();
             var driver = DriverFactory.Create(diagnostics, result);
             var tokens = driver.tokenize();
-            var iterator = tokens.filter(t -> t.getType() != TokenKind.Whitespace).iterator();
-            while (iterator.hasNext()) {
-                var current = iterator.next();
+            while (true) {
+                var current = tokens.advance();
                 System.out.println(current.toString());
 
                 if (current.getType() == TokenKind.EndOfFile)

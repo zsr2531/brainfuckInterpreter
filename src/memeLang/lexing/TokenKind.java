@@ -8,6 +8,5 @@ public enum TokenKind {
     Star,
     Slash,
     Bad,
-    Whitespace,
     EndOfFile
 }

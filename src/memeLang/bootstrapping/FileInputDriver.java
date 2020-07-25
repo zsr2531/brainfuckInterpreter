@@ -1,11 +1,10 @@
 package memeLang.bootstrapping;
 
 import memeLang.lexing.Lexer;
-import memeLang.lexing.Token;
+import memeLang.lexing.TokenStream;
 import memeLang.util.DiagnosticBag;
 
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class FileInputDriver extends Driver {
     private final Scanner scanner;
@@ -16,7 +15,7 @@ public class FileInputDriver extends Driver {
     }
 
     @Override
-    public Stream<Token> tokenize() {
+    public TokenStream tokenize() {
         return new Lexer(diagnostics, scanner.next()).lex();
     }
 

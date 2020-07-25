@@ -3,8 +3,6 @@ package memeLang.lexing;
 import memeLang.util.Diagnostic;
 import memeLang.util.DiagnosticBag;
 
-import java.util.stream.Stream;
-
 public class Lexer {
     private final DiagnosticBag diagnostics;
     private final String input;
@@ -15,26 +13,21 @@ public class Lexer {
         this.diagnostics = diagnostics;
     }
 
-    public Stream<Token> lex() {
-        return Stream.generate(this::supply);
+    public TokenStream lex() {
+        return new TokenStream(this::supply);
     }
 
     private Token supply() {
         int start = position;
-        char current = getCurrent();
-        if (current == '\0')
+        if (getCurrent() == '\0')
             return new Token(new TextSpan(start, position), TokenKind.EndOfFile, null);
 
-        if (Character.isWhitespace(current)) {
-            var builder = new StringBuilder();
-
+        if (Character.isWhitespace(getCurrent())) {
             while (Character.isWhitespace(getCurrent()))
-                builder.append(advance());
-
-            return new Token(new TextSpan(start, position - 1), TokenKind.Whitespace, builder.toString());
+                advance();
         }
 
-        if (Character.isAlphabetic(current) || current == '_') {
+        if (Character.isAlphabetic(getCurrent()) || getCurrent() == '_') {
             var builder = new StringBuilder();
 
             while (Character.isLetterOrDigit(getCurrent()) || getCurrent() == '_')
@@ -43,7 +36,7 @@ public class Lexer {
             return new Token(new TextSpan(start, position - 1), TokenKind.Identifier, builder.toString());
         }
 
-        if (Character.isDigit(current)) {
+        if (Character.isDigit(getCurrent())) {
             var builder = new StringBuilder();
 
             while (Character.isDigit(getCurrent()))
@@ -53,7 +46,7 @@ public class Lexer {
         }
 
         var span = new TextSpan(start, position);
-        switch (current) {
+        switch (getCurrent()) {
             case '+':
                 return new Token(span, TokenKind.Plus, advance());
             case '-':
@@ -63,7 +56,7 @@ public class Lexer {
             case '/':
                 return new Token(span, TokenKind.Slash, advance());
             default:
-                diagnostics.add(new Diagnostic(span, "Unexpected character: " + current));
+                diagnostics.add(new Diagnostic(span, "Unexpected character: " + getCurrent()));
                 return new Token(span, TokenKind.Bad, advance());
         }
     }

@@ -1,9 +1,7 @@
 package memeLang.bootstrapping;
 
-import memeLang.lexing.Token;
+import memeLang.lexing.TokenStream;
 import memeLang.util.DiagnosticBag;
-
-import java.util.stream.Stream;
 
 public abstract class Driver implements AutoCloseable {
     protected final DiagnosticBag diagnostics;
@@ -12,7 +10,7 @@ public abstract class Driver implements AutoCloseable {
         this.diagnostics = diagnostics;
     }
 
-    public abstract Stream<Token> tokenize();
+    public abstract TokenStream tokenize();
 
     @Override
     public void close() { }
