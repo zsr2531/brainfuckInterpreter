@@ -17,10 +17,13 @@ public class Lexer {
     }
 
     private Token supply() {
+        if (getCurrent() == '\0')
+            return new Token(position, TokenKind.EndOfFile);
+
         while (isIgnored(getCurrent()))
             position++;
 
-        return switch (getCurrent()) {
+        return switch (advance()) {
             case '<' -> new Token(position, TokenKind.LeftShift);
             case '>' -> new Token(position, TokenKind.RightShift);
             case '+' -> new Token(position, TokenKind.Plus);
@@ -38,6 +41,13 @@ public class Lexer {
             return '\0';
 
         return input.charAt(position);
+    }
+
+    private char advance() {
+        var temp = getCurrent();
+        position++;
+
+        return temp;
     }
 
     private boolean isIgnored(char character) {
