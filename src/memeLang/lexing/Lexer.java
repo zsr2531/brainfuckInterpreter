@@ -37,7 +37,7 @@ public class Lexer {
         if (Character.isAlphabetic(current) || current == '_') {
             var builder = new StringBuilder();
 
-            while (Character.isLetterOrDigit(getCurrent()))
+            while (Character.isLetterOrDigit(getCurrent()) || getCurrent() == '_')
                 builder.append(advance());
 
             return new Token(new TextSpan(start, position - 1), TokenKind.Identifier, builder.toString());
