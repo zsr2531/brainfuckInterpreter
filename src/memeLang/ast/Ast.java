@@ -1,5 +1,8 @@
 package memeLang.ast;
 
+import memeLang.ast.visitor.AstNodeReturnVisitor;
+import memeLang.ast.visitor.AstNodeVisitor;
+
 import java.util.ArrayList;
 
 public class Ast extends AstNode {
@@ -12,5 +15,15 @@ public class Ast extends AstNode {
     @Override
     public AstNode[] getChildren() {
         return (AstNode[]) statements.toArray();
+    }
+
+    @Override
+    public void Accept(AstNodeVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public <T> T Accept(AstNodeReturnVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

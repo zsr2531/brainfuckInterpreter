@@ -1,5 +1,8 @@
 package memeLang.ast;
 
+import memeLang.ast.visitor.AstNodeReturnVisitor;
+import memeLang.ast.visitor.AstNodeVisitor;
+
 public class AstBinaryExpression extends AstExpression {
     private final AstExpression left;
     private final AstExpression right;
@@ -29,5 +32,15 @@ public class AstBinaryExpression extends AstExpression {
             left,
             right
         };
+    }
+
+    @Override
+    public void Accept(AstNodeVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public <T> T Accept(AstNodeReturnVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
