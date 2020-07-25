@@ -1,7 +1,10 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="brainfuckInterpreter:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/brainfuckInterpreter</output-path>
-    <root id="archive" name="memeLang.jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/brainfuckInterpreter_jar</output-path>
+    <root id="archive" name="brainfuckInterpreter.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="brainfuckInterpreter" />
     </root>
   </artifact>
