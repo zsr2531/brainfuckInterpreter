@@ -24,6 +24,9 @@ public class AstPrettyPrinter {
         indent += isLast ? "    " : "│   ";
 
         var children = node.getChildren();
+        if (children.length == 0)
+            return;
+
         var lastChild = children[children.length - 1];
 
         for (var child : children)
