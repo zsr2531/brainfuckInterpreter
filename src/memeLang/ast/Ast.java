@@ -12,6 +12,10 @@ public class Ast extends AstNode {
         statements.add(statement);
     }
 
+    public ArrayList<AstStatement> getStatements() {
+        return statements;
+    }
+
     @Override
     public AstNode[] getChildren() {
         var buffer = new AstNode[statements.size()];
@@ -23,12 +27,12 @@ public class Ast extends AstNode {
     }
 
     @Override
-    public <T> void Accept(AstNodeVisitor<T> visitor, T state) {
+    public <T> void accept(AstNodeVisitor<T> visitor, T state) {
         visitor.visit(this, state);
     }
 
     @Override
-    public <T> T Accept(AstNodeReturnVisitor<T> visitor) {
+    public <T> T accept(AstNodeReturnVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
