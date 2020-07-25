@@ -4,6 +4,8 @@ import memeLang.commandLine.CommandLineParser;
 import memeLang.commandLine.CommandLineParserException;
 import memeLang.commandLine.CommandLineSwitches;
 import memeLang.factories.DriverFactory;
+import memeLang.interpretation.BrainfuckEmulator;
+import memeLang.interpretation.ProgramState;
 import memeLang.lexing.TokenKind;
 import memeLang.util.DiagnosticBag;
 import memeLang.util.StringUtils;
@@ -19,7 +21,7 @@ public final class Main {
             }
 
             if (result.hasFlag(CommandLineSwitches.VERSION)){
-                System.out.println("MemeLang compiler v1.0.0");
+                System.out.println("Brainfuck compiler/interpreter v1.0.0");
                 return;
             }
 
@@ -27,7 +29,13 @@ public final class Main {
             var driver = DriverFactory.Create(diagnostics, result);
             var tokens = driver.tokenize();
             var ast = driver.parse(tokens);
-            System.out.println(ast.getChildren().length);
+            if (diagnostics.isEmpty()) {
+                var state = new ProgramState();
+                var emulator = new BrainfuckEmulator();
+                ast.accept(emulator, state);
+            } else {
+                diagnostics.forEach(System.err::println);
+            }
         } catch (CommandLineParserException e) {
             System.err.println("An error occurred while parsing command line arguments: " + e.getMessage());
             System.err.println("For a list of valid command line arguments use '-h' or '--help'");
