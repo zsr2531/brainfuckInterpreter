@@ -18,7 +18,12 @@ public class AstLoopStatement extends AstStatement {
 
     @Override
     public AstNode[] getChildren() {
-        return (AstNode[]) statements.toArray();
+        var buffer = new AstNode[statements.size()];
+        for (int i = 0; i < statements.size(); i++) {
+            buffer[i] = statements.get(i);
+        }
+
+        return buffer;
     }
 
     @Override
