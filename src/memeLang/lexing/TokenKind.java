@@ -1,12 +1,13 @@
 package memeLang.lexing;
 
 public enum TokenKind {
-    Identifier,
-    Number,
+    LeftShift,
+    RightShift,
     Plus,
     Minus,
-    Star,
-    Slash,
-    Bad,
+    LeftBracket,
+    RightBracket,
+    Dot,
+    Comma,
     EndOfFile
 }

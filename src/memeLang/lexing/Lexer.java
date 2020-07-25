@@ -1,16 +1,15 @@
 package memeLang.lexing;
 
-import memeLang.util.Diagnostic;
-import memeLang.util.DiagnosticBag;
-
 public class Lexer {
-    private final DiagnosticBag diagnostics;
+    private static final char[] VALID = new char[] {
+        '<', '>', '+', '-', '[', ']', '.', ','
+    };
+
     private final String input;
     private int position;
 
-    public Lexer(DiagnosticBag diagnostics, String input) {
+    public Lexer(String input) {
         this.input = input;
-        this.diagnostics = diagnostics;
     }
 
     public TokenStream lex() {
@@ -18,47 +17,20 @@ public class Lexer {
     }
 
     private Token supply() {
-        int start = position;
-        if (getCurrent() == '\0')
-            return new Token(new TextSpan(start, position), TokenKind.EndOfFile, null);
+        while (isIgnored(getCurrent()))
+            position++;
 
-        if (Character.isWhitespace(getCurrent())) {
-            while (Character.isWhitespace(getCurrent()))
-                advance();
-        }
-
-        if (Character.isAlphabetic(getCurrent()) || getCurrent() == '_') {
-            var builder = new StringBuilder();
-
-            while (Character.isLetterOrDigit(getCurrent()) || getCurrent() == '_')
-                builder.append(advance());
-
-            return new Token(new TextSpan(start, position - 1), TokenKind.Identifier, builder.toString());
-        }
-
-        if (Character.isDigit(getCurrent())) {
-            var builder = new StringBuilder();
-
-            while (Character.isDigit(getCurrent()))
-                builder.append(advance());
-
-            return new Token(new TextSpan(start, position - 1), TokenKind.Number, Integer.parseInt(builder.toString()));
-        }
-
-        var span = new TextSpan(start, position);
-        switch (getCurrent()) {
-            case '+':
-                return new Token(span, TokenKind.Plus, advance());
-            case '-':
-                return new Token(span, TokenKind.Minus, advance());
-            case '*':
-                return new Token(span, TokenKind.Star, advance());
-            case '/':
-                return new Token(span, TokenKind.Slash, advance());
-            default:
-                diagnostics.add(new Diagnostic(span, "Unexpected character: " + getCurrent()));
-                return new Token(span, TokenKind.Bad, advance());
-        }
+        return switch (getCurrent()) {
+            case '<' -> new Token(position, TokenKind.LeftShift);
+            case '>' -> new Token(position, TokenKind.RightShift);
+            case '+' -> new Token(position, TokenKind.Plus);
+            case '-' -> new Token(position, TokenKind.Minus);
+            case '[' -> new Token(position, TokenKind.LeftBracket);
+            case ']' -> new Token(position, TokenKind.RightBracket);
+            case '.' -> new Token(position, TokenKind.Dot);
+            case ',' -> new Token(position, TokenKind.Comma);
+            default -> null;
+        };
     }
 
     private char getCurrent() {
@@ -68,10 +40,12 @@ public class Lexer {
         return input.charAt(position);
     }
 
-    private char advance() {
-        var character = getCurrent();
-        position++;
+    private boolean isIgnored(char character) {
+        for (char c : VALID) {
+            if (c == character)
+                return false;
+        }
 
-        return character;
+        return true;
     }
 }
