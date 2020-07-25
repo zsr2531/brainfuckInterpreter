@@ -50,15 +50,15 @@ public class Parser {
 
     private AstStatement loopStatement() throws UnexpectedEndOfInputException, UnexpectedTokenException {
         var statements = new ArrayList<AstStatement>();
-        while (tokens.lookahead().getType() != TokenKind.RightBracket) {
-            var current = tokens.advance();
+        Token current;
+
+        while ((current = tokens.advance()).getType() != TokenKind.RightBracket) {
             if (current.getType() == TokenKind.EndOfFile)
                 throw new UnexpectedEndOfInputException(current.getPosition());
 
             statements.add(tokenToAst(current));
         }
 
-        tokens.advance();
         return new AstLoopStatement(statements);
     }
 
