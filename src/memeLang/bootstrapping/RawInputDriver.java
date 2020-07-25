@@ -1,7 +1,9 @@
 package memeLang.bootstrapping;
 
+import memeLang.ast.Ast;
 import memeLang.lexing.Lexer;
 import memeLang.lexing.TokenStream;
+import memeLang.parsing.Parser;
 import memeLang.util.DiagnosticBag;
 
 public class RawInputDriver extends Driver {
@@ -15,5 +17,10 @@ public class RawInputDriver extends Driver {
     @Override
     public TokenStream tokenize() {
         return new Lexer(input).lex();
+    }
+
+    @Override
+    public Ast parse(TokenStream tokens) {
+        return new Parser(diagnostics, tokens).parse();
     }
 }
