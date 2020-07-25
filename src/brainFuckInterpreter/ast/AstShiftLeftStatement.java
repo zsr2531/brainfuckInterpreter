@@ -18,4 +18,9 @@ public class AstShiftLeftStatement extends AstStatement {
     public <T> T accept(AstNodeReturnVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "AstShiftLeftStatement";
+    }
 }

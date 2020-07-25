@@ -35,4 +35,9 @@ public class Ast extends AstNode {
     public <T> T accept(AstNodeReturnVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "Ast";
+    }
 }
