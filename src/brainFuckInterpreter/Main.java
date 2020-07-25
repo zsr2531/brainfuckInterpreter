@@ -6,6 +6,7 @@ import brainFuckInterpreter.commandLine.CommandLineSwitches;
 import brainFuckInterpreter.factories.DriverFactory;
 import brainFuckInterpreter.interpretation.BrainfuckEmulator;
 import brainFuckInterpreter.interpretation.ProgramState;
+import brainFuckInterpreter.util.AstPrettyPrinter;
 import brainFuckInterpreter.util.DiagnosticBag;
 import brainFuckInterpreter.util.StringUtils;
 
@@ -20,7 +21,7 @@ public final class Main {
             }
 
             if (result.hasFlag(CommandLineSwitches.VERSION)){
-                System.out.println("Brainfuck compiler/interpreter v1.0.0");
+                System.out.println("brainfuckInterpreter v1.0.0");
                 return;
             }
 
@@ -28,6 +29,9 @@ public final class Main {
             var driver = DriverFactory.Create(diagnostics, result);
             var tokens = driver.tokenize();
             var ast = driver.parse(tokens);
+            if (result.hasFlag(CommandLineSwitches.DUMP_PARSE_TREE))
+                new AstPrettyPrinter(ast).prettyPrint();
+
             if (diagnostics.isEmpty()) {
                 var state = new ProgramState();
                 var emulator = new BrainfuckEmulator();
