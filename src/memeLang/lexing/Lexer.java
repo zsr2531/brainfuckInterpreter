@@ -1,13 +1,18 @@
 package memeLang.lexing;
 
+import memeLang.util.Diagnostic;
+import memeLang.util.DiagnosticBag;
+
 import java.util.stream.Stream;
 
 public class Lexer {
     private final String input;
+    private final DiagnosticBag diagnostics;
     private int position;
 
-    public Lexer(String input) {
+    public Lexer(String input, DiagnosticBag diagnostics) {
         this.input = input;
+        this.diagnostics = diagnostics;
     }
 
     public Stream<Token> lex() {
@@ -29,10 +34,10 @@ public class Lexer {
             return new Token(new TextSpan(start, position - 1), TokenKind.Whitespace, builder.toString());
         }
 
-        if (Character.isAlphabetic(current)) {
+        if (Character.isAlphabetic(current) || current == '_') {
             var builder = new StringBuilder();
 
-            while (Character.isAlphabetic(getCurrent()))
+            while (Character.isLetterOrDigit(getCurrent()))
                 builder.append(advance());
 
             return new Token(new TextSpan(start, position - 1), TokenKind.Identifier, builder.toString());
@@ -48,13 +53,19 @@ public class Lexer {
         }
 
         var span = new TextSpan(start, position);
-        return switch (current) {
-            case '+' -> new Token(span, TokenKind.Plus, advance());
-            case '-' -> new Token(span, TokenKind.Minus, advance());
-            case '*' -> new Token(span, TokenKind.Star, advance());
-            case '/' -> new Token(span, TokenKind.Slash, advance());
-            default -> new Token(span, TokenKind.Bad, advance());
-        };
+        switch (current) {
+            case '+':
+                return new Token(span, TokenKind.Plus, advance());
+            case '-':
+                return new Token(span, TokenKind.Minus, advance());
+            case '*':
+                return new Token(span, TokenKind.Star, advance());
+            case '/':
+                return new Token(span, TokenKind.Slash, advance());
+            default:
+                diagnostics.add(new Diagnostic(span, "Unexpected character: " + current));
+                return new Token(span, TokenKind.Bad, advance());
+        }
     }
 
     private char getCurrent() {
