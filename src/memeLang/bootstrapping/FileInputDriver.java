@@ -16,7 +16,7 @@ public class FileInputDriver extends Driver {
 
     @Override
     public TokenStream tokenize() {
-        return new Lexer(diagnostics, scanner.next()).lex();
+        return new Lexer(scanner.next()).lex();
     }
 
     @Override

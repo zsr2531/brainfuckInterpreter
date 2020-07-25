@@ -1,16 +1,19 @@
 package memeLang.parsing;
 
-import memeLang.lexing.Token;
+import memeLang.ast.Ast;
+import memeLang.lexing.TokenStream;
 import memeLang.util.DiagnosticBag;
-
-import java.util.stream.Stream;
 
 public class Parser {
     private final DiagnosticBag diagnostics;
-    private final Stream<Token> tokens;
+    private final TokenStream tokens;
 
-    public Parser(DiagnosticBag diagnostics, Stream<Token> tokens) {
+    public Parser(DiagnosticBag diagnostics, TokenStream tokens) {
         this.diagnostics = diagnostics;
         this.tokens = tokens;
+    }
+
+    public Ast parse() {
+        return new Ast();
     }
 }

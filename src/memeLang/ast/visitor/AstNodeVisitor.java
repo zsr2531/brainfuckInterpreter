@@ -1,16 +1,21 @@
 package memeLang.ast.visitor;
 
-import memeLang.ast.Ast;
-import memeLang.ast.AstBinaryExpression;
-import memeLang.ast.AstExpressionStatement;
-import memeLang.ast.AstNumberExpression;
+import memeLang.ast.*;
 
 public interface AstNodeVisitor {
     void visit(Ast ast);
 
-    void visit(AstExpressionStatement expressionStatement);
+    void visit(AstIncrementCellStatement incrementCellStatement);
 
-    void visit(AstBinaryExpression binaryExpression);
+    void visit(AstDecrementCellStatement decrementCellStatement);
 
-    void visit(AstNumberExpression numberExpression);
+    void visit(AstShiftLeftStatement shiftLeftStatement);
+
+    void visit(AstShiftRightStatement shiftRightStatement);
+
+    void visit(AstPrintStatement printStatement);
+
+    void visit(AstInputStatement inputStatement);
+
+    void visit(AstLoopStatement loopStatement);
 }

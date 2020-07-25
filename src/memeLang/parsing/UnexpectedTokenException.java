@@ -1,18 +1,17 @@
 package memeLang.parsing;
 
-import memeLang.lexing.TextSpan;
 import memeLang.lexing.Token;
 import memeLang.lexing.TokenKind;
 
 public class UnexpectedTokenException extends Exception {
-    private final TextSpan span;
+    private final int position;
 
     public UnexpectedTokenException(TokenKind expected, Token token) {
-        super("(" + token.getSpan() + "): Expected <" + expected + ">, but got <" + token.getType() + ">");
-        this.span = token.getSpan();
+        super("(" + token.getPosition() + "): Expected <" + expected + ">, but got <" + token.getType() + ">");
+        this.position = token.getPosition();
     }
 
-    public TextSpan getSpan() {
-        return span;
+    public int getPosition() {
+        return position;
     }
 }

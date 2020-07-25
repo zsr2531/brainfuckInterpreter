@@ -14,6 +14,6 @@ public class RawInputDriver extends Driver {
 
     @Override
     public TokenStream tokenize() {
-        return new Lexer(diagnostics, input).lex();
+        return new Lexer(input).lex();
     }
 }

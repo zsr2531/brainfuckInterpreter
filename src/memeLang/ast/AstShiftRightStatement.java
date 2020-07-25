@@ -1,19 +1,11 @@
 package memeLang.ast;
 
+import memeLang.ast.AstNode;
+import memeLang.ast.AstStatement;
 import memeLang.ast.visitor.AstNodeReturnVisitor;
 import memeLang.ast.visitor.AstNodeVisitor;
 
-public class AstNumberExpression extends AstExpression {
-    private final int value;
-
-    public AstNumberExpression(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
+public class AstShiftRightStatement extends AstStatement {
     @Override
     public AstNode[] getChildren() {
         return new AstNode[0];

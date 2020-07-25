@@ -3,22 +3,10 @@ package memeLang.ast;
 import memeLang.ast.visitor.AstNodeReturnVisitor;
 import memeLang.ast.visitor.AstNodeVisitor;
 
-public class AstExpressionStatement extends AstStatement {
-    private final AstExpression expression;
-
-    public AstExpressionStatement(AstExpression expression) {
-        this.expression = expression;
-    }
-
-    public AstExpression getExpression() {
-        return expression;
-    }
-
+public class AstInputStatement extends AstStatement {
     @Override
     public AstNode[] getChildren() {
-        return new AstNode[] {
-            expression
-        };
+        return new AstNode[0];
     }
 
     @Override
