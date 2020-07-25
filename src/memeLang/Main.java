@@ -26,13 +26,8 @@ public final class Main {
             var diagnostics = new DiagnosticBag();
             var driver = DriverFactory.Create(diagnostics, result);
             var tokens = driver.tokenize();
-            while (true) {
-                var current = tokens.advance();
-                System.out.println(current.toString());
-
-                if (current.getType() == TokenKind.EndOfFile)
-                    break;
-            }
+            var ast = driver.parse(tokens);
+            System.out.println(ast.getChildren().length);
         } catch (CommandLineParserException e) {
             System.err.println("An error occurred while parsing command line arguments: " + e.getMessage());
             System.err.println("For a list of valid command line arguments use '-h' or '--help'");
