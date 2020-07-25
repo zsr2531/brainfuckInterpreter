@@ -5,6 +5,7 @@ import memeLang.commandLine.CommandLineParserException;
 import memeLang.commandLine.CommandLineSwitches;
 import memeLang.factories.DriverFactory;
 import memeLang.lexing.TokenKind;
+import memeLang.util.DiagnosticBag;
 import memeLang.util.StringUtils;
 
 public final class Main {
@@ -22,7 +23,8 @@ public final class Main {
                 return;
             }
 
-            var driver = DriverFactory.Create(result);
+            var diagnostics = new DiagnosticBag();
+            var driver = DriverFactory.Create(diagnostics, result);
             var tokens = driver.tokenize();
             var iterator = tokens.filter(t -> t.getType() != TokenKind.Whitespace).iterator();
             while (iterator.hasNext()) {

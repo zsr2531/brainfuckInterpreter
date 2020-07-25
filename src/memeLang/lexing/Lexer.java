@@ -6,11 +6,11 @@ import memeLang.util.DiagnosticBag;
 import java.util.stream.Stream;
 
 public class Lexer {
-    private final String input;
     private final DiagnosticBag diagnostics;
+    private final String input;
     private int position;
 
-    public Lexer(String input, DiagnosticBag diagnostics) {
+    public Lexer(DiagnosticBag diagnostics, String input) {
         this.input = input;
         this.diagnostics = diagnostics;
     }
