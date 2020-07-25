@@ -1,20 +1,18 @@
 package memeLang.util;
 
-import memeLang.lexing.TextSpan;
-
 import java.util.Objects;
 
 public class Diagnostic {
-    private final TextSpan span;
+    private final int position;
     private final String message;
 
-    public Diagnostic(TextSpan span, String message) {
-        this.span = span;
+    public Diagnostic(int position, String message) {
+        this.position = position;
         this.message = message;
     }
 
-    public TextSpan getSpan() {
-        return span;
+    public int getPosition() {
+        return position;
     }
 
     public String getMessage() {
@@ -28,17 +26,17 @@ public class Diagnostic {
         if (o == null || getClass() != o.getClass())
             return false;
         Diagnostic that = (Diagnostic) o;
-        return span.equals(that.span) &&
+        return position == that.position &&
             message.equals(that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(span, message);
+        return Objects.hash(position, message);
     }
 
     @Override
     public String toString() {
-        return "(" + span.getStart() + "," + span.getEnd() + "): " + message;
+        return "(" + position + "): " + message;
     }
 }
